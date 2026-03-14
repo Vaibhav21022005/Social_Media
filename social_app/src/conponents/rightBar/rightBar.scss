@@ -1,0 +1,114 @@
+@import "../../style.scss";
+
+.rightBar {
+  @include themify($themes) {
+    flex: 3;
+    position: sticky; // ✅ FIXED
+    top: 70px; // below navbar
+    height: calc(100vh - 70px);
+    overflow-y: auto; // only inside scroll
+    background-color: themed("bgSoft");
+    @include mobile {
+      display: none;
+    }
+    @include tablet {
+      display: none;
+    }
+
+    &::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: themed("border");
+      border-radius: 10px;
+    }
+
+    .container {
+      padding: 20px;
+
+      .item {
+        box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.06);
+        padding: 20px;
+        margin-bottom: 20px;
+        background-color: themed("bg");
+        border-radius: 15px; // cleaner look
+        transition: 0.3s;
+
+        span {
+          color: gray;
+        }
+
+        .user {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin: 15px 0;
+          
+
+          .userInfo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            position: relative;
+
+            img {
+              width: 40px;
+              height: 40px;
+              border-radius: 50%;
+              object-fit: cover;
+            }
+
+            .online {
+              height: 10px;
+              width: 10px;
+              border-radius: 50%;
+              background-color: limegreen;
+              position: absolute;
+              top: 2px;
+              left: 28px;
+              border: 2px solid themed("bg");
+            }
+
+            p {
+              color: themed("textColorSoft");
+              font-size: 13px;
+            }
+
+            span {
+              font-weight: 500;
+              color: themed("textColor");
+            }
+          }
+
+          .buttons {
+            display: flex;
+            gap: 8px;
+          }
+
+          button {
+            border: none;
+            padding: 6px 10px;
+            border-radius: 6px;
+            color: white;
+            cursor: pointer;
+            font-size: 12px;
+            transition: 0.3s;
+
+            &:first-child {
+              background-color: #5271ff;
+            }
+
+            &:last-child {
+              background-color: #f0544f;
+            }
+
+            &:hover {
+              opacity: 0.8;
+            }
+          }
+        }
+      }
+    }
+  }
+}

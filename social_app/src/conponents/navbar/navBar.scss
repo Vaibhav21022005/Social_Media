@@ -1,0 +1,142 @@
+@import "../../style.scss";
+
+.navBar {
+  @include themify($themes) {
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    height: 65px;
+    padding: 0 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: themed("bg");
+    color: themed("textColor");
+    border-bottom: 1px solid themed("border");
+    transition: all 0.3s ease;
+
+    .left {
+      display: flex;
+      align-items: center;
+      gap: 25px;
+
+      .logo {
+        font-size: 22px;
+        font-weight: 700;
+        color: themed("logo");
+        text-decoration: none;
+        letter-spacing: 1px;
+        cursor: pointer;
+      }
+
+      .icon {
+        cursor: pointer;
+        color: themed("textColorSoft");
+        transition: 0.3s;
+
+        &:hover {
+          transform: scale(1.1);
+          color: #667eea;
+        }
+      }
+
+      .search {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+
+        background: themed("bgSoft");
+        border: 1px solid themed("border");
+        border-radius: 25px;
+
+        padding: 6px 12px;
+        transition: 0.3s;
+
+        &:focus-within {
+          border-color: #667eea;
+          box-shadow: 0 0 8px rgba(102, 126, 234, 0.3);
+        }
+
+        input {
+          border: none;
+          outline: none;
+          background: transparent;
+          width: 180px;
+          font-size: 14px;
+          color: themed("textColor");
+          @include mobile {
+            display: none;
+          }
+        }
+      }
+    }
+
+    .right {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      @include mobile {
+        display: none;
+      }
+      @include tablet {
+        width: 200px;
+      }
+
+      .icon {
+        cursor: pointer;
+        color: themed("textColorSoft");
+        transition: 0.3s;
+
+        &:hover {
+          transform: scale(1.1);
+          color: #667eea;
+        }
+      }
+
+      .user {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        cursor: pointer;
+        @include tablet {
+        display: none;
+      }
+        img {
+          width: 35px;
+          height: 35px;
+          border-radius: 50%;
+          object-fit: cover;
+          border: 2px solid #667eea;
+        }
+
+        span {
+          font-weight: 500;
+          color: themed("textColor");
+        }
+      }
+    }
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .navBar {
+    padding: 0 15px;
+
+    .left {
+      gap: 15px;
+
+      .search {
+        display: none;
+      }
+    }
+
+    .right {
+      gap: 15px;
+
+      .user span {
+        display: none;
+      }
+    }
+  }
+}

@@ -1,0 +1,119 @@
+@import "../../style.scss";
+
+.leftBar {
+  @include themify($themes) {
+    flex: 2;
+    position: sticky;
+    top: 65px;
+    height: calc(100vh - 65px);
+    overflow-y: auto;
+
+    background: themed("bg");
+    border-right: 1px solid themed("border");
+
+    transition: all 0.3s ease;
+    @include mobile {
+      display: none;
+    }
+
+    /* Scrollbar */
+    &::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: themed("border");
+      border-radius: 10px;
+    }
+
+    .container {
+      padding: 25px 20px;
+
+      hr {
+        margin: 25px 0;
+        border: none;
+        height: 1px;
+        background: themed("border");
+      }
+
+      .menu {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+
+        /* Section Title */
+        span {
+          font-size: 12px;
+          font-weight: 600;
+          color: themed("textColorSoft");
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+        }
+
+        /* User Section */
+        .user {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          padding: 10px;
+          border-radius: 12px;
+          cursor: pointer;
+          transition: 0.3s;
+
+          img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #667eea;
+          }
+
+          span {
+            font-size: 15px;
+            font-weight: 600;
+            color: themed("textColor");
+          }
+
+          &:hover {
+            background: themed("bgSoft");
+          }
+        }
+
+        /* Menu Items */
+        .item {
+          display: flex;
+          align-items: center;
+          gap: 15px;
+          padding: 10px;
+          border-radius: 10px;
+          cursor: pointer;
+          transition: all 0.3s ease;
+
+          img {
+            width: 26px;
+            height: 26px;
+            object-fit: contain;
+          }
+
+          span {
+            font-size: 14px;
+            font-weight: 500;
+            color: themed("textColor");
+          }
+
+          &:hover {
+            background: themed("bgSoft");
+            transform: translateX(6px);
+          }
+        }
+      }
+    }
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .leftBar {
+    display: none;
+  }
+}

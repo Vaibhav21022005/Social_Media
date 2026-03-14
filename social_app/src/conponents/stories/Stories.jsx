@@ -1,0 +1,50 @@
+import { useContext } from "react";
+import "./stories.scss";
+import { AuthContext } from "../../context/authContex";
+const Stories = () => {
+  const { currentUser } = useContext(AuthContext);
+  const stories = [
+    {
+      id: 1,
+      name: "Yash",
+      img: "https://images.pexels.com/photos/91227/pexels-photo-91227.jpeg", // mountain
+    },
+    {
+      id: 2,
+      name: "Rahul",
+      img: "https://images.pexels.com/photos/417173/pexels-photo-417173.jpeg", // forest road
+    },
+    {
+      id: 3,
+      name: "Sneha",
+      img: "https://images.pexels.com/photos/210186/pexels-photo-210186.jpeg", // sunset
+    },
+    {
+      id: 4,
+      name: "Amit",
+      img: "https://images.pexels.com/photos/414171/pexels-photo-414171.jpeg", // lake nature
+    },
+    {
+      id: 5,
+      name: "Priya",
+      img: "https://images.pexels.com/photos/34950/pexels-photo.jpg", // city skyline
+    },
+  ];
+  return (
+    <div className="stories">
+      <div className="story" key={stories.id}>
+        <img src={currentUser.profilePic} alt="" />
+        <span>{currentUser.name}</span>
+        <button>+</button>
+      </div>
+      {stories.map((story) => (
+        <div className="story">
+          <img src={story.img} alt="" />
+          <span>{story.name}</span>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+export default Stories;
