@@ -1,3 +1,4 @@
+import axios from "axios";
 import { createContext, useEffect, useState } from "react";
 
 export const AuthContext = createContext();
@@ -7,12 +8,12 @@ export const AuthContextProvider = ({ children }) => {
     JSON.parse(localStorage.getItem("user")) || null
   );
 
-  const login = () => {
-    setCurrentUser({
-        id:1,
-        name:"Vaibhav Dhone",
-        profilePic:"https://i.pravatar.cc/300?img=12",
+  const login = async (inputs) => {
+    const res = await axios.post("http://localhost:8800/api/auth/login", inputs, {
+      withCredentials: true,
     });
+
+    setCurrentUser(res.data)
   };
 
   useEffect(() => {

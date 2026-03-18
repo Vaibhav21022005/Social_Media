@@ -10,7 +10,7 @@ import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined
 import { Link } from "react-router-dom";
 import { DarkModeContext } from "../../context/darkModeContext";
 import { useContext } from "react";
-import { AuthContext } from "../../context/authContex";
+import { AuthContext } from "../../context/authContext";
 
 const NavBar = () => {
   const { toggle, darkMode } = useContext(DarkModeContext);
@@ -26,7 +26,7 @@ const NavBar = () => {
         {darkMode ? (
           <WbSunnyOutlinedIcon className="icon" onClick={toggle} />
         ) : (
-        <DarkModeOutlinedIcon className="icon" onClick={toggle} />
+          <DarkModeOutlinedIcon className="icon" onClick={toggle} />
         )}
         <GridViewOutlinedIcon className="icon" />
 
@@ -42,7 +42,15 @@ const NavBar = () => {
         <NotificationsOutlinedIcon className="icon" />
 
         <div className="user">
-          <img src={currentUser.profilePic} alt="user" />
+          {/* ✅ Add /upload/ prefix */}
+          <img
+            src={
+              currentUser.profilePic
+                ? "/upload/" + currentUser.profilePic
+                : "/default-avatar.png"
+            }
+            alt="user"
+          />
           <span>{currentUser.name}</span>
         </div>
       </div>

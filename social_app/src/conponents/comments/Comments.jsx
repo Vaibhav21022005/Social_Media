@@ -1,45 +1,109 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import "./comments.scss";
-import { AuthContext } from "../../context/authContex";
+import { AuthContext } from "../../context/authContext";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { makeRequest } from "../../axios";
+import moment from "moment";
 
-const Comments = () => {
+const Comments = ({ postId }) => {
 
-  const {currentUser} = useContext(AuthContext)
-  const comments = [
-    {
-      id: 1,
-      name: "Vaibhav",
-      userId: 1,
-      profilePic: "https://i.pravatar.cc/150?img=3",
-      desc: "Hello Welcome to my new home",
+  const [desc, setDesc] = useState("");
+  const { currentUser } = useContext(AuthContext);
+
+  const queryClient = useQueryClient();
+
+  // ================= GET COMMENTS =================
+
+  const { isLoading, error, data } = useQuery({
+    queryKey: ["comments", postId],
+    queryFn: () =>
+      makeRequest
+        .get("/comments?postId=" + postId)
+        .then((res) => res.data),
+  });
+
+  // ================= ADD COMMENT =================
+
+  const mutation = useMutation({
+    mutationFn: (newComment) => {
+      return makeRequest.post("/comments", newComment);
     },
-    {
-      id: 2,
-      name: "Yash",
-      userId: 2,
-      profilePic: "https://i.pravatar.cc/150?img=5",
-      desc: "Beautiful house view 🌅",
+
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["comments", postId],
+      });
     },
-  ];
+  });
+
+  const handleClick = (e) => {
+
+    e.preventDefault();
+
+    mutation.mutate({
+      desc,
+      postId,
+    });
+
+    setDesc("");
+
+  };
 
   return (
+
     <div className="comments">
+
       <div className="write">
-        <img src={currentUser.profilePic} alt="" />
-        <input type="text" placeholder="write a comment" />
-        <button>Send</button>
+
+        <img
+          src={`/upload/${encodeURIComponent(currentUser.profilePic)}`}
+          alt=""
+        />
+
+        <input
+          type="text"
+          placeholder="write a comment"
+          value={desc}
+          onChange={(e) => setDesc(e.target.value)}
+        />
+
+        <button onClick={handleClick}>
+          Send
+        </button>
+
       </div>
-      {comments.map((comment) => (
-        <div className="comment" key={comment.id}>
-          <img src={comment.profilePic} alt="" />
-          <div className="info">
-            <span>{comment.name}</span>
-            <p>{comment.desc}</p>
-          </div>
-          <span className="date">1 hr ago</span>
-        </div>
-      ))}
+
+      {error
+        ? "Something went wrong"
+        : isLoading
+        ? "loading..."
+        : data.map((comment) => (
+
+            <div className="comment" key={comment.id}>
+
+              <img
+                src={`/upload/${encodeURIComponent(comment.profilePic)}`}
+                alt=""
+              />
+
+              <div className="info">
+
+                <span>{comment.name}</span>
+
+                <p>{comment.desc}</p>
+
+              </div>
+
+              <span className="date">
+                {moment(comment.createdAt).fromNow()}
+              </span>
+
+            </div>
+
+          ))}
+
     </div>
+
   );
 };
 
